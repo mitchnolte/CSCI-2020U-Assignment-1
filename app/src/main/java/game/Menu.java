@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
 
 
 /**
- * JPanel for the main menu screen.
+ * {@link JPanel} for the main menu screen.
  */
 public class Menu extends JPanel {
 
@@ -90,7 +90,7 @@ public class Menu extends JPanel {
 
 
   /**
-   * Action listener for buttons.
+   * Action listener for {@link JButton buttons}.
    * @param e action performed.
    */
   public void actionPerformed(ActionEvent e) {

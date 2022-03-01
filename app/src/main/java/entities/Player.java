@@ -9,8 +9,7 @@ import entities.enemies.EnemyProjectile;
 
 
 /**
- * A player entity, which is a red square.
- * @see entities.Entity
+ * A player {@link Entity}, which is a red square.
  */
 public class Player extends Entity {
 
@@ -25,7 +24,7 @@ public class Player extends Entity {
 
 
   /**
-   * Constructor to create a player object.
+   * Constructor to create a {@code Player} object.
    * @param x initial x coordinate.
    * @param y initial y coordinate.
    * @param width width of player.
@@ -61,7 +60,7 @@ public class Player extends Entity {
   
   /**
    * Calculates and updates player velocity and position. Also stops player from moving beyond the
-   * screen.
+   * screen edges.
    */
   @Override
   public void update() {
@@ -101,7 +100,8 @@ public class Player extends Entity {
 
 
   /**
-   * {@inheritDoc} Also stops the player from moving until they release the movement keys.
+   * {@inheritDoc} Also sets flag to stop the player from moving until they release the movement
+   * keys.
    */
   @Override
   public void reset() {
@@ -116,11 +116,12 @@ public class Player extends Entity {
 
 
   /**
-   * Determines whether the player is colliding with an entity or not.
+   * Determines whether the player is colliding with an {@link Entity} or not.
    * @param entity the entity to check for collision with the player.
    * @return Whether entity collides with the player or not.
    */
   public boolean collidesWith(Entity entity) {
+
     // Win tile collision
     if(entity instanceof WinTile) {
       WinTile tile = (WinTile)entity;
@@ -154,8 +155,8 @@ public class Player extends Entity {
 
   /**
    * Sets the player to move in the desired direction when {@code update()} is called.
-   * @param direction char which can be 'W', 'A', 'S', or 'D' to represent the direction by the key
-   * pressed to move in that direction.
+   * @param direction can be 'W', 'A', 'S', or 'D' to represent the direction by the key pressed to
+   * move in that direction.
    */
   public void startMoving(char direction) {
     switch(direction) {
@@ -176,8 +177,8 @@ public class Player extends Entity {
 
   /**
    * Stops the player from moving in a desired direciton.
-   * @param direction char which can be 'W', 'A', 'S', or 'D' to represent the direction by the key
-   * pressed to move in that direction.
+   * @param direction can be 'W', 'A', 'S', or 'D' to represent the direction by the key pressed to
+   * move in that direction.
    */
   public void stopMoving(char direction) {
     switch(direction) {

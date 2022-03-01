@@ -6,8 +6,8 @@ import java.awt.Rectangle;
 
 
 /**
- * An entity representing the space on the board where the player needs to go to win.
- * @see entities.Entity
+ * An {@link Entity} representing the space on the board where the {@link Player} needs to go to
+ * win.
  */
 public class WinTile extends Entity {
   
@@ -17,7 +17,7 @@ public class WinTile extends Entity {
   
 
   /**
-   * Constructor to create a WinTile object.
+   * Constructor to create a {@code WinTile} object.
    * @param x x coordinate.
    * @param y y coordinate.
    * @param width width of tile.
@@ -32,8 +32,7 @@ public class WinTile extends Entity {
 
 
   /**
-   * @return The hitbox of the tile as a rectangle.
-   * @see java.awt.Rectangle
+   * @return The hitbox of the tile as a {@link Rectangle}.
    */
   public Rectangle getHitbox() {return hitbox;}
 
@@ -48,13 +47,13 @@ public class WinTile extends Entity {
   }
 
   /**
-   * {@inheritDoc} For a WinTile, there is nothing to update.
+   * {@inheritDoc} For a {@code WinTile}, there is nothing to update.
    */
   @Override
   public void update() {}
 
   /**
-   * {@inheritDoc} For a WinTile, there is nothing to reset.
+   * {@inheritDoc} For a {@code WinTile}, there is nothing to reset.
    */
   @Override
   public void reset() {}

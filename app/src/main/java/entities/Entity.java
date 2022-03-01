@@ -5,9 +5,9 @@ import java.awt.Graphics;
 
 
 /**
- * An entity is anything in the game that can be interacted with in some way, such as a player or
- * an enemy. Call {@code update()} and {@code draw(Graphics g)} once per frame.
- * 
+ * An {@code Entity} is anything in the game that can be interacted with in some way, such as a
+ * {@link Player player} or an {@link entities.enemies.Enemy enemy}. Call {@code update()} and
+ * {@code draw(Graphics g)} once per frame.
  */
 public abstract class Entity {
 
@@ -16,7 +16,7 @@ public abstract class Entity {
 
 
   /**
-   * Constructor to create an entity.
+   * Constructor to create an {@code Entity} object.
    * @param x initial x coordinate.
    * @param y initial y coordinate.
    * @param color color of entity.

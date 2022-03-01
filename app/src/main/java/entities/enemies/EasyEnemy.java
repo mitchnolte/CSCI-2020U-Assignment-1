@@ -4,8 +4,7 @@ import java.awt.Color;
 
 
 /**
- * Implementation of the abstract Enemy class for easy mode. Has simple linear movement.
- * @see Enemy 
+ * Implementation of the abstract {@link Enemy} class for easy mode. Has simple linear movement.
  * @see entities.Entity Entity
  */
 public class EasyEnemy extends Enemy {

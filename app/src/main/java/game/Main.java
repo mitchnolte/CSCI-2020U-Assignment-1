@@ -57,14 +57,14 @@ public class Main implements Runnable {
 
 
   /**
-   * Available panels to be displayed.
+   * Available {@link JPanel panels} to be displayed.
    */
   public static enum Panels {
     MENU, EASY_GAMESCREEN, HARD_GAMESCREEN, WINSCREEN
   }
 
   /**
-   * Switches the panel to the desired screen.
+   * Switches the {@link JPanel panel} to the desired screen.
    * @param screen the screen to be displayed.
    */
   public static void showPanel(Panels screen) {

@@ -6,8 +6,7 @@ import entities.Entity;
 
 
 /**
- * An enemy entity, which is a blue circle.
- * @see entities.Entity
+ * An enemy {@link Entity}, which is a blue circle.
  */
 public abstract class Enemy extends Entity {
   
@@ -15,7 +14,7 @@ public abstract class Enemy extends Entity {
   protected int diameter;
   
   /**
-   * Constructor to create an enemy object.
+   * Constructor to create an {@code Enemy} object.
    * @param x initial x coordinate.
    * @param y initial y coordinate.
    * @param diameter diameter of enemy.

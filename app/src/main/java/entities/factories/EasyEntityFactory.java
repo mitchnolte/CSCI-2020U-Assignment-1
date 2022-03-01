@@ -6,21 +6,16 @@ import game.Main;
 
 
 /**
- * Implentation of the EntityFactory interface to create the entities required for easy mode.
- * @see EntityFactory
- * @see entities.Entity
- * @see entities.enemies.EasyEnemy
+ * Implentation of {@link EntityFactory} interface to create the {@link entities.Entity entities}
+ * required for easy mode.
  */
 public class EasyEntityFactory implements EntityFactory {
 
   /**
-   * Factory method to create all the entities required for easy mode.
+   * Factory method to create all the {@link entities.Entity entities} required for easy mode.
    * 
-   * @return The entities in an array. The first element is the player, the second is the win tile,
-   * and the rest are enemies.
-   * @see entities.Player
-   * @see entities.WinTile
-   * @see entities.enemies.EasyEnemy
+   * @return The entities in an array. The first element is the {@link entities.Player player}, the
+   * second is the {@link entities.WinTile win tile}, and the rest are {@link entities.enemies.EasyEnemy enemies}.
    */
   @Override
   public Entity[] getEntities() {

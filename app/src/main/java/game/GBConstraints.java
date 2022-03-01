@@ -5,8 +5,8 @@ import java.awt.Insets;
 
 
 /**
- * Convenience class to make creating GridBagConstraints objects easier.
- * @see java.awt.GridBagConstraints GridBagConstraints
+ * Convenience class to make creating {@link java.awt.GridBagConstraints GridBagConstraints} objects
+ * easier.
  */
 public class GBConstraints extends GridBagConstraints {
 

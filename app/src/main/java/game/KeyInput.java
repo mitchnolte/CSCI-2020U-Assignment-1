@@ -6,8 +6,7 @@ import entities.Player;
 
 
 /**
- * KeyListener object to control the game.
- * @see java.awt.event.KeyListener
+ * {@link KeyListener} object to control the game.
  */
 public class KeyInput implements KeyListener {
   
@@ -16,9 +15,9 @@ public class KeyInput implements KeyListener {
 
 
   /**
-   * Constructor to create the KeyInput object.
-   * @param game the GameScreen this object is controlling.
-   * @param player the player this object is controlling.
+   * Constructor to create the {@code KeyInput} object.
+   * @param game the {@link GameScreen} this object is controlling.
+   * @param player the {@link entities.Player player} this object is controlling.
    */
   public KeyInput(GameScreen game, Player player) {
     this.game = game;

@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 
 
 /**
- * JPanel for the screen displayed when the player wins.
+ * {@link JPanel} for the screen displayed when the player wins.
  */
 public class WinScreen extends JPanel {
   

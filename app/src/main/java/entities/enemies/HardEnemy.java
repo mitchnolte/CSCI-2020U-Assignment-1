@@ -4,8 +4,7 @@ import java.awt.Color;
 
 
 /**
- * Implementation of the abstract Enemy class for hard mode.
- * @see Enemy
+ * Implementation of the abstract {@link Enemy} class for hard mode.
  * @see entities.Entity
  */
 public class HardEnemy extends Enemy {
@@ -17,7 +16,7 @@ public class HardEnemy extends Enemy {
 
 
   /**
-   * Constructor to create a HardEnemy object.
+   * Constructor to create a {@code HardEnemy)} object.
    * @param x initial x coordinate.
    * @param y initial y coordinate.
    * @param diameter diameter of enemy.
@@ -40,7 +39,7 @@ public class HardEnemy extends Enemy {
 
   /**
    * Shoots the projectile in the direction the enemy is going if the projectile is ready to be
-   * shot.
+   * shot. Direction may be altered by the projectiles velocity multipliers.
    */
   public void shootProjectile() {
     if(!projectile.isInPlay()) {

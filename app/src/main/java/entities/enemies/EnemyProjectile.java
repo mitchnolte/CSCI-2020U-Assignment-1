@@ -6,10 +6,8 @@ import game.Main;
 
 
 /**
- * A projectile shot from an enemy in hard mode.
- * @see Enemy
+ * A projectile {@link entities.Entity entity} shot from an {@link Enemy enemy} in hard mode.
  * @see HardEnemy
- * @see entities.Entity
  */
 public class EnemyProjectile extends Enemy {
   
@@ -19,7 +17,7 @@ public class EnemyProjectile extends Enemy {
 
 
   /**
-   * Constructor to create EnemyProjectile object.
+   * Constructor to create {@code EnemyProjectile} object.
    * @param diameter diameter of projectile.
    * @param velMultiplierX multiplier for horizontal shot velocity.
    * @param velMultiplierY multiplier for vertical shot velocity.
@@ -39,8 +37,8 @@ public class EnemyProjectile extends Enemy {
 
   
   /**
-   * Shoots the projectile from (x, y) with the specified velocity mutliplied by the projectile's
-   * velocity multipliers.
+   * Shoots the projectile from {@code (x, y)} with the specified velocity mutliplied by the
+   * projectile's velocity multipliers.
    * @param x x coordinate to shoot from.
    * @param y x coordinate to shoot from.
    * @param velocityX x axis velocity.

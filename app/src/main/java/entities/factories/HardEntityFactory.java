@@ -7,10 +7,8 @@ import game.Main;
 
 
 /**
- * Implentation of the EntityFactory interface to create the entities required for hard mode.
- * @see EntityFactory
- * @see entities.Entity
- * @see entities.enemies.HardEnemy
+ * Implentation of the {@link EntityFactory} interface to create the {@link entities.Entity entities}
+ * required for hard mode.
  */
 public class HardEntityFactory implements EntityFactory {
 
@@ -18,13 +16,11 @@ public class HardEntityFactory implements EntityFactory {
 
 
   /**
-   * Factory method to create all the entities required for hard mode.
+   * Factory method to create all the {@link entities.Entity Entity} required for hard mode.
    * 
-   * @return The entities in an array. The first element is the player, the second is the win tile.
-   * Of the rest, the first half are enemies and the second half are their projectiles.
-   * @see entities.Player
-   * @see entities.WinTile
-   * @see entities.enemies.EasyEnemy
+   * @return The entities in an array. The first element is the {@link entities.Player player} and
+   * the second is the {@link entities.WinTile win tile}. Of the rest, the first half are
+   * {@link entities.enemies.HardEnemy enemies} and the second half are their {@link entities.enemies.EnemyProjectile projectiles}.
    */
   @Override
   public Entity[] getEntities() {
@@ -68,7 +64,7 @@ public class HardEntityFactory implements EntityFactory {
 
   /**
    * Genereates a random float in the range [0.75, 2.25] to be used as a velocity multiplier for
-   * a projectile.
+   * a {@link entities.enemies.EnemyProjectile projectile}.
    * @return The random float.
    */
   private float getProjectileVelocityMultiplier() {

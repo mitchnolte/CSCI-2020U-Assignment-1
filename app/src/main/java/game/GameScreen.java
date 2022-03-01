@@ -11,7 +11,7 @@ import entities.factories.*;
 
 
 /**
- * JPanel for the screen the game is played on.
+ * {@link JPanel} for the screen the game is played on.
  */
 public class GameScreen extends JPanel {
 
@@ -105,7 +105,7 @@ public class GameScreen extends JPanel {
 
 
   /**
-   * Ends the game and displays the win screen.
+   * Ends the game and displays the {@link WinScreen win screen}.
    */
   public void winGame() {
     resetGame();
