@@ -28,7 +28,7 @@ public class EasyEntityFactory implements EntityFactory {
     // Initialize entity array, player entity and win tile entity
     Entity[] entities = new Entity[NUM_ENEMIES + 2];
     entities[0] = new Player(PLAYER_START_POINT, PLAYER_START_POINT, PLAYER_WIDTH, PLAYER_HEIGHT,
-                             MOVE_SPEED);
+                             PLAYER_MOVE_SPEED);
     entities[1] = new WinTile(Main.FRAME_WIDTH - 3*TILE_SIZE, Main.FRAME_HEIGHT - 2*TILE_SIZE,
                               3*TILE_SIZE, 2*TILE_SIZE);
 
@@ -39,7 +39,7 @@ public class EasyEntityFactory implements EntityFactory {
         // Calculate positions and velocities
         int x = j * ENEMY_SPACING_X;
         int y = (i+1) * ENEMY_SPACING_y + ENEMY_TILE_OFFSET;
-        int speed = MOVE_SPEED * (int)Math.pow(-1, i);
+        int speed = ENEMY_MOVE_SPEED * (int)Math.pow(-1, i);
         if(i%2 != 0) {x += ENEMY_TRAVEL_DISTANCE;}
 
         // Create enemy

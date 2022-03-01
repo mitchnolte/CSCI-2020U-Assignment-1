@@ -4,9 +4,9 @@ import java.awt.Color;
 
 
 /**
- * Implementation of the abstract Enemy class for easy mode.
- * @see Enemy
- * @see entities.Entity
+ * Implementation of the abstract Enemy class for easy mode. Has simple linear movement.
+ * @see Enemy 
+ * @see entities.Entity Entity
  */
 public class EasyEnemy extends Enemy {
 
@@ -16,7 +16,7 @@ public class EasyEnemy extends Enemy {
 
 
   /**
-   * Constructor to create an EasyEnemy object.
+   * Constructor to create an {@code EasyEnemy} object.
    * @param x initial x coordinate.
    * @param y initial y coordinate.
    * @param diameter diameter of enemy.

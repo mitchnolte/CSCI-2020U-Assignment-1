@@ -31,7 +31,7 @@ public class HardEntityFactory implements EntityFactory {
     // Initialize entity array, player entity and win tile entity
     Entity[] entities = new Entity[2*NUM_ENEMIES + 2];
     entities[0] = new Player(PLAYER_START_POINT, PLAYER_START_POINT, PLAYER_WIDTH, PLAYER_HEIGHT,
-                             MOVE_SPEED);
+                             PLAYER_MOVE_SPEED);
     entities[1] = new WinTile(Main.FRAME_WIDTH - 3*TILE_SIZE, Main.FRAME_HEIGHT - 2*TILE_SIZE,
                               3*TILE_SIZE, 2*TILE_SIZE);
     
@@ -44,7 +44,7 @@ public class HardEntityFactory implements EntityFactory {
         // Calculate positions and velocities
         int x = j * ENEMY_SPACING_X + Main.FRAME_WIDTH / 32;
         int y = (i+1) * ENEMY_SPACING_y + ENEMY_TILE_OFFSET;
-        int velocityX = MOVE_SPEED * (int)Math.pow(-1, i);
+        int velocityX = ENEMY_MOVE_SPEED * (int)Math.pow(-1, i);
         int velocityY = velocityX;
         if(j%2 == 1) velocityY *= -1;
         if(i%2 != 0) {x += ENEMY_TRAVEL_DISTANCE/1.5f;}
@@ -72,6 +72,10 @@ public class HardEntityFactory implements EntityFactory {
    * @return The random float.
    */
   private float getProjectileVelocityMultiplier() {
-    return (rand.nextFloat() + 0.5f) * 1.5f;
+    float multiplier = (rand.nextFloat() + 0.5f) * 1.5f;
+
+    // 50% chance to reverse the direction.
+    if(rand.nextBoolean()) {return multiplier;}
+    else {return -multiplier;}
   }
 }

@@ -16,11 +16,12 @@ public class Player extends Entity {
 
   private final int XSTART, YSTART;
   private int width, height;
-  private int velocityX, velocityY;
-  private int moveSpeed;
+  private Rectangle hitbox;
+  private float velocityX, velocityY;
+  private final int MOVE_SPEED;
+  private final float DIAG_MOVE_SPEED;
   private boolean W=false, A=false, S=false, D=false;
   private boolean canMove=true;
-  private Rectangle hitbox;
 
 
   /**
@@ -37,7 +38,8 @@ public class Player extends Entity {
     YSTART = y;
     this.width = width;
     this.height = height;
-    this.moveSpeed = moveSpeed;
+    this.MOVE_SPEED = moveSpeed;
+    DIAG_MOVE_SPEED = MOVE_SPEED*(float)Math.sin(Math.PI/4);
     velocityX = 0;
     velocityY = 0;
     hitbox = new Rectangle(x, y, width, height);
@@ -58,10 +60,34 @@ public class Player extends Entity {
 
   
   /**
-   * Updates player position and stops it from moving beyond the screen.
+   * Calculates and updates player velocity and position. Also stops player from moving beyond the
+   * screen.
    */
   @Override
   public void update() {
+
+    // Determine velocity based on which movement keys are pressed
+    if(canMove) {
+      if(W && S) {velocityY = 0;}
+      else if(W) {velocityY = -MOVE_SPEED;}
+      else if(S) {velocityY = MOVE_SPEED;}
+      else {velocityY = 0;}
+
+      if(A && D) {velocityX = 0;}
+      else if(A) {velocityX = -MOVE_SPEED;}
+      else if(D) {velocityX = MOVE_SPEED;}
+      else {velocityX = 0;}
+    }
+
+    // Diagonal velocity
+    if(velocityX != 0 && velocityY != 0) {
+      velocityX = DIAG_MOVE_SPEED;
+      velocityY = DIAG_MOVE_SPEED;
+      velocityX = D? velocityX : -velocityX;
+      velocityY = S? velocityY : -velocityY;
+    }
+
+    // Update player and hitbox position
     x += velocityX;
     y += velocityY;
     hitbox.setLocation(getX(), getY());
@@ -127,42 +153,24 @@ public class Player extends Entity {
 
 
   /**
-   * Sets the player's velocity to move in the desired direction.
+   * Sets the player to move in the desired direction when {@code update()} is called.
    * @param direction char which can be 'W', 'A', 'S', or 'D' to represent the direction by the key
    * pressed to move in that direction.
    */
   public void startMoving(char direction) {
-    if(canMove) {
-      switch(direction) {
-        case 'W':
-          if(!W) {
-            if(!S) {velocityY = -moveSpeed;}
-            else {velocityY = 0;}
-            W = true;
-          }
-          break;
-        case 'A':
-          if(!A) {
-            if(!D) {velocityX = -moveSpeed;}
-            else {velocityX = 0;}
-            A = true;
-          }
-          break;
-        case 'S':
-          if(!S) {
-            if(!W) {velocityY = moveSpeed;}
-            else {velocityY = 0;}
-            S = true;
-          }
-          break;
-        case 'D':
-          if(!D) {
-            if(!A) {velocityX = moveSpeed;}
-            else {velocityX = 0;}
-            D = true;
-          }
-          break;
-      }
+    switch(direction) {
+      case 'W':
+        W = true;
+        break;
+      case 'A':
+        A = true;
+        break;
+      case 'S':
+        S = true;
+        break;
+      case 'D':
+        D = true;
+        break;
     }
   }
 
@@ -174,31 +182,15 @@ public class Player extends Entity {
   public void stopMoving(char direction) {
     switch(direction) {
       case 'W':
-        if(canMove) {
-          if(velocityY == 0) {velocityY = moveSpeed;}
-          else {velocityY = 0;}
-        }
         W = false;
         break;
       case 'A':
-        if(canMove) {
-          if(velocityX == 0) {velocityX = moveSpeed;}
-          else {velocityX = 0;}
-        }
         A = false;
         break;
       case 'S':
-        if(canMove) {
-          if(velocityY == 0) {velocityY = -moveSpeed;}
-          else {velocityY = 0;}
-        }
         S = false;
         break;
       case 'D':
-        if(canMove) {
-          if(velocityX == 0) {velocityX = -moveSpeed;}
-          else {velocityX = 0;}
-        }
         D = false;
         break;
     }

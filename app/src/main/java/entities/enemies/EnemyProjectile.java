@@ -39,7 +39,8 @@ public class EnemyProjectile extends Enemy {
 
   
   /**
-   * Shoots the projectile from (x, y) with the specified velocity.
+   * Shoots the projectile from (x, y) with the specified velocity mutliplied by the projectile's
+   * velocity multipliers.
    * @param x x coordinate to shoot from.
    * @param y x coordinate to shoot from.
    * @param velocityX x axis velocity.
