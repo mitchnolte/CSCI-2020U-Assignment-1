@@ -3,25 +3,25 @@ package entities.players;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Rectangle;
-import game.Main;
+import entities.*;
 import entities.enemies.Enemy;
-import entities.enemies.EnemyProjectile;
 
 
 /**
- * A player {@link Entity}, which is a red square. Controlled by a {@link game.KeyInput KeyInput}
- * object.
+ * A player {@link Entity} is a red square. Controlled by a {@link game.KeyInput KeyInput} object.
  */
 public class Player extends Entity {
 
-  private final int XSTART, YSTART;
-  private int width, height;
-  private Rectangle hitbox;
-  private float velocityX, velocityY;
-  private final int MOVE_SPEED;
-  private final float DIAG_MOVE_SPEED;
-  private boolean W=false, A=false, S=false, D=false;
-  private boolean canMove=true;
+  
+  protected int frameWidth, frameHeight;
+  protected final int XSTART, YSTART;
+  protected int width, height;
+  protected Rectangle hitbox;
+  protected float velocityX, velocityY;
+  protected final int MOVE_SPEED;
+  protected final float DIAG_MOVE_SPEED;
+  protected boolean W=false, A=false, S=false, D=false;
+  protected boolean canMove=true;
 
 
   /**
@@ -31,8 +31,12 @@ public class Player extends Entity {
    * @param width width of player.
    * @param height height of player.
    * @param moveSpeed movement speed of player.
+   * @param frameWidth width of the frame the game is drawn in.
+   * @param frameHeight height of the frame the game is drawn in.
    */
-  public Player(int x, int y, int width, int height, int moveSpeed) {
+  public Player(int x, int y, int width, int height, int moveSpeed, int frameWidth,
+                int frameHeight)
+  {
     super(x, y, Color.RED);
     XSTART = x;
     YSTART = y;
@@ -43,6 +47,8 @@ public class Player extends Entity {
     velocityX = 0;
     velocityY = 0;
     hitbox = new Rectangle(x, y, width, height);
+    this.frameWidth = frameWidth;
+    this.frameHeight = frameHeight;
   }
 
 
@@ -51,9 +57,12 @@ public class Player extends Entity {
    */
   @Override
   public void draw(Graphics g) {
+
+    // Draw border
     g.setColor(Color.BLACK);
     g.drawRect(getX(), getY(), width, height);
 
+    // Fill square
     g.setColor(color);
     g.fillRect(getX()+1, getY()+1, width-1, height-1);
   }
@@ -68,23 +77,26 @@ public class Player extends Entity {
 
     // Determine velocity based on which movement keys are pressed
     if(canMove) {
+
+      // Vertical velocity
       if(W && S) {velocityY = 0;}
       else if(W) {velocityY = -MOVE_SPEED;}
       else if(S) {velocityY = MOVE_SPEED;}
       else {velocityY = 0;}
 
+      // Horizontal velocity
       if(A && D) {velocityX = 0;}
       else if(A) {velocityX = -MOVE_SPEED;}
       else if(D) {velocityX = MOVE_SPEED;}
       else {velocityX = 0;}
-    }
 
-    // Diagonal velocity
-    if(velocityX != 0 && velocityY != 0) {
-      velocityX = DIAG_MOVE_SPEED;
-      velocityY = DIAG_MOVE_SPEED;
-      velocityX = D? velocityX : -velocityX;
-      velocityY = S? velocityY : -velocityY;
+      // Diagonal velocity
+      if(velocityX != 0 && velocityY != 0) {
+        velocityX = DIAG_MOVE_SPEED;
+        velocityY = DIAG_MOVE_SPEED;
+        velocityX = D? velocityX : -velocityX;
+        velocityY = S? velocityY : -velocityY;
+      }
     }
 
     // Update player and hitbox position
@@ -95,8 +107,8 @@ public class Player extends Entity {
     // Screen border collision
     if(x < 0) {x = 0;}
     if(y < 0) {y = 0;}
-    if(x + width > Main.FRAME_WIDTH) {x = Main.FRAME_WIDTH - width;}
-    if(y + height > Main.FRAME_HEIGHT) {y = Main.FRAME_HEIGHT - height;}
+    if(x + width > frameWidth) {x = frameWidth - width;}
+    if(y + height > frameHeight) {y = frameHeight - height;}
   }
 
 
@@ -131,9 +143,17 @@ public class Player extends Entity {
 
     // Enemy collision
     if(!(entity instanceof Enemy)) {return false;}
-    if(entity instanceof EnemyProjectile && !((EnemyProjectile)entity).isInPlay()) {return false;}
 
     Enemy enemy = (Enemy)entity;
+    return calculateCollision(enemy);
+  }
+
+  /**
+   * Determines whether the player is colliding with an {@link Enemy} or not.
+   * @param enemy the enemy to check for collision with the player.
+   * @return Whether enemy collides with the player or not.
+   */
+  protected boolean calculateCollision(Enemy enemy) {
     int enemyX = enemy.getMidPointX();
     int enemyY = enemy.getMidPointY();
     float enemyRadius = enemy.getRadius();

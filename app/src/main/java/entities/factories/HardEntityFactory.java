@@ -43,7 +43,7 @@ public class HardEntityFactory implements EntityFactory {
    */
   @Override
   public Player getPlayer(int x, int y, int width, int height, int moveSpeed) {
-    return new HardPlayer(x, y, width, height, moveSpeed);
+    return new HardPlayer(x, y, width, height, moveSpeed, frameWidth, frameHeight);
   }
 
 
@@ -94,7 +94,7 @@ public class HardEntityFactory implements EntityFactory {
    * @return The created projectile.
    */
   public EnemyProjectile getProjectile(int diameter, float velMultiplierX, float velMultiplierY) {
-    return new EnemyProjectile(diameter, velMultiplierX, velMultiplierY);
+    return new EnemyProjectile(diameter, velMultiplierX, velMultiplierY, frameWidth, frameHeight);
   }
 
 

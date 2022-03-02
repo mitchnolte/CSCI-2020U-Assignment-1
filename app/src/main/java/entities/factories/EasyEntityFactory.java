@@ -11,6 +11,7 @@ import entities.enemies.*;
  */
 public class EasyEntityFactory implements EntityFactory {
 
+  private int frameWidth, frameHeight;
   private int tileSize;
   private int spacingX, spacingY;
 
@@ -22,6 +23,8 @@ public class EasyEntityFactory implements EntityFactory {
   public void enemyGridInit(int frameWidth, int frameHeight, int tileSize, int numEnemyRows,
   int numEnemyCols)
   {
+    this.frameWidth = frameWidth;
+    this.frameHeight = frameHeight;
     this.tileSize = tileSize;
     spacingX = frameWidth / numEnemyCols;
     spacingY = frameHeight / (numEnemyRows + 1);
@@ -33,7 +36,7 @@ public class EasyEntityFactory implements EntityFactory {
    */
   @Override
   public Player getPlayer(int x, int y, int width, int height, int moveSpeed) {
-    return new Player(x, y, width, height, moveSpeed);
+    return new Player(x, y, width, height, moveSpeed, frameWidth, frameHeight);
   }
 
   /**

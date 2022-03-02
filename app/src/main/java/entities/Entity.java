@@ -30,15 +30,19 @@ public abstract class Entity {
   /**
    * @return X coordinate as an integer.
    */
-  public int getX() {return (int)x;}
+  public int getX() {
+    return (int)x;
+  }
 
   /**
    * @return Y coordinate as an integer.
    */
-  public int getY() {return (int)y;}
+  public int getY() {
+    return (int)y;
+  }
 
   /**
-   * Updates the entity.
+   * Updates the entity. Usually updates position, sometimes other things as well.
    */
   public abstract void update();
 

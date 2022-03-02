@@ -2,7 +2,6 @@ package entities.enemies;
 
 import java.awt.Graphics;
 import java.awt.Color;
-import game.Main;
 
 
 /**
@@ -13,7 +12,8 @@ public class EnemyProjectile extends Enemy {
   
   private final float VEL_MULTIPLIER_X, VEL_MULTIPLIER_Y;
   private float velocityX, velocityY;
-  private boolean inPlay;
+  private int frameWidth, frameHeight;
+  private boolean onScreen;
 
 
   /**
@@ -21,19 +21,27 @@ public class EnemyProjectile extends Enemy {
    * @param diameter diameter of projectile.
    * @param velMultiplierX multiplier for horizontal shot velocity.
    * @param velMultiplierY multiplier for vertical shot velocity.
+   * @param frameWidth width of the frame the game is drawn in.
+   * @param frameHeight height of the frame the game is drawn in.
    */
-  public EnemyProjectile(int diameter, float velMultiplierX, float velMultiplierY) {
-    super(0, 0, diameter, new Color(0, 0, 100));
+  public EnemyProjectile(int diameter, float velMultiplierX, float velMultiplierY, int frameWidth,
+                         int frameHeight)
+  {
+    super(0, 0, diameter, 0, 0, new Color(0, 0, 100));
     VEL_MULTIPLIER_X = velMultiplierX;
     VEL_MULTIPLIER_Y = velMultiplierY;
-    inPlay = false;
+    this.frameWidth = frameWidth;
+    this.frameHeight = frameHeight;
+    onScreen = false;
   }
 
 
   /**
-   * @return Whether the projectile is in play or not. If it is in play it cannot be fired.
+   * @return Whether the projectile is on screen or not. If it is it cannot be fired.
    */
-  public boolean isInPlay() {return inPlay;}
+  public boolean isOnScreen() {
+    return onScreen;
+  }
 
   
   /**
@@ -49,16 +57,16 @@ public class EnemyProjectile extends Enemy {
     this.y = y;
     this.velocityX = velocityX * VEL_MULTIPLIER_X;
     this.velocityY = velocityY * VEL_MULTIPLIER_Y;
-    inPlay = true;
+    onScreen = true;
   }
 
 
   /**
-   * {@inheritDoc}
+   * {@inheritDoc} Only draws if the projectile should be shown, i.e. {@code onScreen == true}.
    */
   @Override
   public void draw(Graphics g) {
-    if(inPlay) {
+    if(onScreen) {
       g.setColor(color);
       g.fillOval(getX(), getY(), diameter, diameter);
     }
@@ -71,13 +79,13 @@ public class EnemyProjectile extends Enemy {
    */
   @Override
   public void update() {
-    if(inPlay) {
+    if(onScreen) {
       x += velocityX;
       y += velocityY;
 
       // Stop updating if off screen
-      if(x >= Main.FRAME_WIDTH || x <= -diameter || y >= Main.FRAME_HEIGHT || y <= -diameter) {
-        inPlay = false;
+      if(x > frameWidth || x < -diameter || y > frameHeight || y < -diameter) {
+        onScreen = false;
       }
     }
   }
@@ -88,6 +96,6 @@ public class EnemyProjectile extends Enemy {
    */
   @Override
   public void reset() {
-    inPlay = false;
+    onScreen = false;
   }
 }
