@@ -1,108 +1,68 @@
 package entities.factories;
 
-import entities.Entity;
-import entities.Player;
+import entities.*;
+import entities.players.Player;
 import entities.enemies.Enemy;
-import game.Main;
 
 
 /**
- * Factory interface for creating {@link Entity entities}. Contains constants used for entity
- * initialization.
+ * Factory interface for creating {@link Entity entities}.
  */
 public interface EntityFactory {
 
   /**
-   * Size of the tiles that make up the game board.
+   * Initializes the parameters required to create enemies for a grid.
+   * @param frameWidth width of the frame the game is drawn in.
+   * @param frameHeight height of the frame the game is drawn in.
+   * @param tileSize size of the tiles that make up the background.
+   * @param numEnemyRows number of rows to organize the enemies into.
+   * @param numEnemyCols number of columns to organize the enemies into.
+   * @see #getGridEnemy
    */
-  public static final int TILE_SIZE = Main.FRAME_WIDTH / 25;
+  public void enemyGridInit(int frameWidth, int frameHeight, int tileSize, int numEnemyRows,
+                            int numEnemyCols);
 
-
-            // Player information
-  /**
-   * Width of the player. 
-   */
-  public static final int PLAYER_WIDTH = Main.FRAME_WIDTH / 32;
-
-  /**
-   * Height of the player.
-   */
-  public static final int PLAYER_HEIGHT = PLAYER_WIDTH;
 
   /**
-   * Initial x and y coordinate to start the player in the middle of the top left tile.
+   * Creates a {@link Player} {@link Entity}.
+   * @param x initial x coordinate.
+   * @param y initial y coordinate.
+   * @param width width of player.
+   * @param height height of player.
+   * @param moveSpeed movement speed of player.
+   * @return The created player.
    */
-  public static final int PLAYER_START_POINT = (TILE_SIZE - PLAYER_WIDTH) / 2;
-
-  /**
-   * Movement speed of the player.
-   */
-  public static final int PLAYER_MOVE_SPEED = Main.FRAME_WIDTH / 400;
-
-
-            // Enemy information
-  /**
-   * Number of enemies to add to the game.
-   */
-  public static final int NUM_ENEMIES = 20;
-
-  /**
-   * Number of columns to organize the enemies into.
-   */
-  public static final int NUM_ENEMY_COLS = 5;
-
-  /**
-   * Number of rows to organize the enemies into.
-   */
-  public static final int NUM_ENEMY_ROWS = NUM_ENEMIES / NUM_ENEMY_COLS;
-
-  /**
-   * Diamter of enemy.
-   */
-  public static final int ENEMY_DIAMETER = Main.FRAME_WIDTH / 40;
-
-  /**
-   * Diameter of enemy projectile.
-   */
-  public static final int PROJECTILE_DIAMETER = ENEMY_DIAMETER / 2;
-
-  /**
-   * Horizontal distance travelled by enemies in easy mode.
-   */
-  public static final int ENEMY_TRAVEL_DISTANCE = Main.FRAME_WIDTH / NUM_ENEMY_COLS -
-                                                  ENEMY_DIAMETER;
+  public Player getPlayer(int x, int y, int width, int height, int moveSpeed);
   
   /**
-   * Movement speed of enemies.
+   * Creates a {@link WinTile} {@link Entity}.
+   * @param x initial x coordinate.
+   * @param y initial y coordinate.
+   * @param width width of tile.
+   * @param height height of tile.
+   * @return The created tile.
    */
-  public static final int ENEMY_MOVE_SPEED = Main.FRAME_HEIGHT / 320;
+  public WinTile getWinTile(int x, int y, int width, int height);
 
   /**
-   * Initial horizontal distance between enemies
+   * Creates an {@link Enemy player} {@link Entity entity}.
+   * @param x initial x coordinate.
+   * @param y initial y coordinate.
+   * @param diameter diameter of enemy.
+   * @param velocityX initial horizontal velocity of enemy.
+   * @param velocityY initial vertical velocity of enemy.
+   * @return The created enemy.
    */
-  public static final int ENEMY_SPACING_X = ENEMY_TRAVEL_DISTANCE + ENEMY_DIAMETER;
+  public Enemy getEnemy(int x, int y, int diameter, float velocityX, float velocityY);
 
   /**
-   * Initil vertical distance between enemies
+   * Creates an {@link Enemy} with the parameters required to go within a grid of enemies.
+   * @param i row of grid.
+   * @param j column of grid.
+   * @param enemyDiameter diameter of enemy.
+   * @param enemyMoveSpeed movement speed of enemy.
+   * @return The enemy initialized for the grid.
+   * @see #enemyGridInit
    */
-  public static final int ENEMY_SPACING_y = Main.FRAME_HEIGHT / (NUM_ENEMY_ROWS + 1);
-
-  /**
-   * Similar to {@link #PLAYER_START_POINT}, distance added to an enemy's start coordinate (x or y)
-   * to ensure it starts in the middle of a tile.
-   */
-  public static final int ENEMY_TILE_OFFSET = (TILE_SIZE - ENEMY_DIAMETER) / 2;
-
-
-
-
-  /**
-   * Creates all the {@link entities.Entity entities} required for the game.
-   * @return an array of entities.
-   */
-  public Entity[] getEntities();
-
-
-  public Enemy getEnemy();
-  public Player getPlayer();
+  public Enemy getGridEnemy(int i, int j, int enemyDiameter, int enemyMoveSpeed);
 }
