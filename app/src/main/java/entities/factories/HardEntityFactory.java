@@ -40,9 +40,8 @@ public class HardEntityFactory implements EntityFactory {
         // Calculate positions and velocities
         int x = j * ENEMY_SPACING_X + Main.FRAME_WIDTH / 32;
         int y = (i+1) * ENEMY_SPACING_y + ENEMY_TILE_OFFSET;
-        int velocityX = ENEMY_MOVE_SPEED * (int)Math.pow(-1, i);
-        int velocityY = velocityX;
-        if(j%2 == 1) velocityY *= -1;
+        int maxVelocityX = ENEMY_MOVE_SPEED * (int)Math.pow(-1, i);
+        int maxVelocityY = j%2 == 1? -maxVelocityX : maxVelocityX;
         if(i%2 != 0) {x += ENEMY_TRAVEL_DISTANCE/1.5f;}
 
         // Create enemy's projectile
@@ -53,8 +52,8 @@ public class HardEntityFactory implements EntityFactory {
         entities[NUM_ENEMIES+2 + j+i*NUM_ENEMY_COLS] = projectile;
 
         // Create enemy
-        entities[j+2 + i*NUM_ENEMY_COLS] = new HardEnemy(x, y, ENEMY_DIAMETER, velocityX,
-                                                         velocityY, projectile);
+        entities[j+2 + i*NUM_ENEMY_COLS] = new HardEnemy(x, y, ENEMY_DIAMETER, maxVelocityX,
+                                                         maxVelocityY, projectile);
       }
     }
 

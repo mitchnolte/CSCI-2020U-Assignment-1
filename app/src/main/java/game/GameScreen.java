@@ -11,7 +11,8 @@ import entities.factories.*;
 
 
 /**
- * {@link JPanel} for the screen the game is played on.
+ * {@link JPanel} for the screen the game is played on. Contians the game loop and uses an
+ * {@link EntityFactory} to create the {@link entities.Entity entities}.
  */
 public class GameScreen extends JPanel {
 
@@ -23,7 +24,7 @@ public class GameScreen extends JPanel {
   
   /**
    * Constructor to create the game screen.
-   * @param entityFactory object to create the entities required for the game.
+   * @param entityFactory factory to create the entities required for the game.
    */
   public GameScreen(EntityFactory entityFactory) {
     setBackground(Color.WHITE);

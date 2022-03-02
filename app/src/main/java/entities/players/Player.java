@@ -1,4 +1,4 @@
-package entities;
+package entities.players;
 
 import java.awt.Graphics;
 import java.awt.Color;
@@ -9,7 +9,8 @@ import entities.enemies.EnemyProjectile;
 
 
 /**
- * A player {@link Entity}, which is a red square.
+ * A player {@link Entity}, which is a red square. Controlled by a {@link game.KeyInput KeyInput}
+ * object.
  */
 public class Player extends Entity {
 
