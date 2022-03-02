@@ -6,7 +6,7 @@ import entities.enemies.Enemy;
 
 
 /**
- * Factory interface for creating {@link Entity entities}.
+ * Abstract Factory for creating {@link Entity entities}.
  */
 public interface EntityFactory {
 
@@ -24,7 +24,7 @@ public interface EntityFactory {
 
 
   /**
-   * Creates a {@link Player} {@link Entity}.
+   * Factory method to create a {@link Player} {@link Entity}.
    * @param x initial x coordinate.
    * @param y initial y coordinate.
    * @param width width of player.
@@ -35,7 +35,7 @@ public interface EntityFactory {
   public Player getPlayer(int x, int y, int width, int height, int moveSpeed);
   
   /**
-   * Creates a {@link WinTile} {@link Entity}.
+   * Factory method to create a {@link WinTile} {@link Entity}.
    * @param x initial x coordinate.
    * @param y initial y coordinate.
    * @param width width of tile.
@@ -45,7 +45,7 @@ public interface EntityFactory {
   public WinTile getWinTile(int x, int y, int width, int height);
 
   /**
-   * Creates an {@link Enemy player} {@link Entity entity}.
+   * Factory method to create an {@link Enemy player} {@link Entity entity}.
    * @param x initial x coordinate.
    * @param y initial y coordinate.
    * @param diameter diameter of enemy.
@@ -56,7 +56,7 @@ public interface EntityFactory {
   public Enemy getEnemy(int x, int y, int diameter, float velocityX, float velocityY);
 
   /**
-   * Creates an {@link Enemy} with the parameters required to go within a grid of enemies.
+   * Factory method to create an {@link Enemy} with the parameters required to go within a grid of enemies.
    * @param i row of grid.
    * @param j column of grid.
    * @param enemyDiameter diameter of enemy.
