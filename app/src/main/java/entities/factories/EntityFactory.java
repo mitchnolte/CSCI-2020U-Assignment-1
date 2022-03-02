@@ -1,6 +1,7 @@
 package entities.factories;
 
 import entities.Entity;
+import entities.Player;
 import entities.enemies.Enemy;
 import game.Main;
 
@@ -103,4 +104,5 @@ public interface EntityFactory {
 
 
   public Enemy getEnemy();
+  public Player getPlayer();
 }
