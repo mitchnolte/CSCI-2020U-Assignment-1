@@ -1,79 +1,115 @@
 package entities.enemies;
 
+import java.awt.Graphics;
 import java.awt.Color;
 
 
 /**
- * Implementation of the abstract {@link Enemy} class for hard mode.
+ * Implementation of the abstract {@link Enemy} class for hard mode. Moves in a circle or oval
+ * pattern and shoots projectiles.
  * @see entities.Entity
  */
 public class HardEnemy extends Enemy {
   
-  private final int VELOCITY_X_MODIFIER, VELOCITY_Y_MODIFIER;
+  /**
+   * If {@code MAX_VELOCITY_X} and {@code MAX_VELOCITY_Y} are equal, they represent the angular
+   * velocity of the enemy.
+   */
+  private final float MAX_VELOCITY_X, MAX_VELOCITY_Y;
   private float velocityX, velocityY;
-  private float velocityRadians;
+
+  /**
+   * Determines size of circular path. Calculated based on maximum velocity, so for any given ratio
+   * of {@link #MAX_VELOCITY_X}:{@link #MAX_VELOCITY_Y}, the radius of the path is (almost) constant.
+   */
+  private final float VEL_RAD_INCREMENT_X, VEL_RAD_INCREMENT_Y;
+  private float velocityRadiansX, velocityRadiansY;
+
   private EnemyProjectile projectile;
 
 
   /**
-   * Constructor to create a {@code HardEnemy)} object.
+   * Constructor to create a {@code HardEnemy} object.
    * @param x initial x coordinate.
    * @param y initial y coordinate.
    * @param diameter diameter of enemy.
    * @param maxVelocityX the maximum horizontal velocity.
    * @param maxVelocityY the maximum vertical velocity.
-   * @param projectile the enemy's projectile.
    */
-  public HardEnemy(int x, int y, int diameter, int maxVelocityX, int maxVelocityY,
-                   EnemyProjectile projectile)
-  {
-    super(x, y, diameter, Color.BLUE);
-    VELOCITY_X_MODIFIER = maxVelocityX;
-    VELOCITY_Y_MODIFIER = maxVelocityY;
-    this.velocityX = 0;
-    this.velocityY = 0;
-    velocityRadians = 0;
+  public HardEnemy(int x, int y, int diameter, float maxVelocityX, float maxVelocityY) {
+    super(x, y, diameter, maxVelocityX, maxVelocityY, Color.BLUE);
+    MAX_VELOCITY_X = maxVelocityX;
+    MAX_VELOCITY_Y = maxVelocityY;
+    velocityX = 0;
+    velocityY = 0;
+    velocityRadiansX = 0;
+    velocityRadiansY = 0;
+    VEL_RAD_INCREMENT_X = Math.abs(MAX_VELOCITY_X) / 45;
+    VEL_RAD_INCREMENT_Y = Math.abs(MAX_VELOCITY_Y) / 45;
+  }
+
+
+  /**
+   * Sets the enemy's projectile.
+   * @param projectile the projectile to give to the enemy.
+   */
+  public void setProjectile(EnemyProjectile projectile) {
     this.projectile = projectile;
   }
 
 
   /**
-   * Shoots the projectile in the direction the enemy is going if the projectile is ready to be
-   * shot. Direction may be altered by the projectiles velocity multipliers.
+   * @return The enemy's projectile.
    */
-  public void shootProjectile() {
-    if(!projectile.isInPlay()) {
+  public EnemyProjectile getProjectile() {
+    return projectile;
+  }
+
+
+  /**
+   * {@inheritDoc} Also calls {@code draw(g)} for the enemy's projectile.
+   */
+  @Override
+  public void draw(Graphics g) {
+    super.draw(g);
+    projectile.draw(g);
+  }
+
+
+  /**
+   * Updates the position of the enemy and its projectile and attempts to shoot the projectile.
+   */
+  @Override
+  public void update() {
+
+    // Circular movement
+    velocityRadiansX += VEL_RAD_INCREMENT_X;
+    velocityRadiansY += VEL_RAD_INCREMENT_Y;
+    velocityX = (float)(MAX_VELOCITY_X * Math.cos(velocityRadiansX));
+    velocityY = (float)(MAX_VELOCITY_Y * Math.sin(velocityRadiansY));
+    
+    x += velocityX;
+    y += velocityY;
+
+    // Update and shoot projectile if ready
+    projectile.update();
+    if(!projectile.isOnScreen()) {
       projectile.shoot(getX(), getY(), velocityX, velocityY);
     }
   }
 
 
   /**
-   * Updates the enemy's position and attempts to shoot its projectile.
-   */
-  @Override
-  public void update() {
-    x += velocityX;
-    y += velocityY;
-
-    // Circular movement
-    velocityRadians += 0.07;
-    velocityY = (float)(VELOCITY_Y_MODIFIER * Math.sin(velocityRadians));
-    velocityX = (float)(VELOCITY_X_MODIFIER * Math.cos(velocityRadians));
-
-    shootProjectile();
-  }
-
-
-  /**
-   * {@inheritDoc}
+   * {@inheritDoc} Also resets the enemy's projectile.
    */
   @Override
   public void reset() {
     x = XSTART;
     y = YSTART;
-    velocityX = VELOCITY_X_MODIFIER;
-    velocityY = VELOCITY_Y_MODIFIER;
-    velocityRadians = 0;
+    velocityX = MAX_VELOCITY_X;
+    velocityY = MAX_VELOCITY_Y;
+    velocityRadiansX = 0;
+    velocityRadiansY = 0;
+    projectile.reset();
   }
 }

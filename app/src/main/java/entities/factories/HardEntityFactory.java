@@ -3,7 +3,7 @@ package entities.factories;
 import java.util.Random;
 import entities.*;
 import entities.enemies.*;
-import game.Main;
+import entities.players.*;
 
 
 /**
@@ -13,57 +13,94 @@ import game.Main;
 public class HardEntityFactory implements EntityFactory {
 
   private Random rand = new Random();
+  private int frameWidth, frameHeight;
+  private int numEnemyRows, numEnemyCols;
+  private int tileSize;
+  private int spacingX, spacingY;
+  private int startX;
 
 
   /**
-   * Factory method to create all the {@link entities.Entity Entity} required for hard mode.
-   * 
-   * @return The entities in an array. The first element is the {@link entities.Player player} and
-   * the second is the {@link entities.WinTile win tile}. Of the rest, the first half are
-   * {@link entities.enemies.HardEnemy enemies} and the second half are their {@link entities.enemies.EnemyProjectile projectiles}.
+   * {@inheritDoc}
    */
   @Override
-  public Entity[] getEntities() {
-    // Initialize entity array, player entity and win tile entity
-    Entity[] entities = new Entity[2*NUM_ENEMIES + 2];
-    entities[0] = new Player(PLAYER_START_POINT, PLAYER_START_POINT, PLAYER_WIDTH, PLAYER_HEIGHT,
-                             PLAYER_MOVE_SPEED);
-    entities[1] = new WinTile(Main.FRAME_WIDTH - 3*TILE_SIZE, Main.FRAME_HEIGHT - 2*TILE_SIZE,
-                              3*TILE_SIZE, 2*TILE_SIZE);
-    
-
-    // Create a grid of enemies with alternating circular movement patterns and a projectile for
-    // each enemy
-    for(int i=0; i<NUM_ENEMY_ROWS; i++) {
-      for(int j=0; j<NUM_ENEMY_COLS; j++) {
-        
-        // Calculate positions and velocities
-        int x = j * ENEMY_SPACING_X + Main.FRAME_WIDTH / 32;
-        int y = (i+1) * ENEMY_SPACING_y + ENEMY_TILE_OFFSET;
-        int maxVelocityX = ENEMY_MOVE_SPEED * (int)Math.pow(-1, i);
-        int maxVelocityY = j%2 == 1? -maxVelocityX : maxVelocityX;
-        if(i%2 != 0) {x += ENEMY_TRAVEL_DISTANCE/1.5f;}
-
-        // Create enemy's projectile
-        float projVelMultiplierX = getProjectileVelocityMultiplier();
-        float projVelMultiplierY = getProjectileVelocityMultiplier();
-        EnemyProjectile projectile = new EnemyProjectile(PROJECTILE_DIAMETER, projVelMultiplierX,
-                                                         projVelMultiplierY);
-        entities[NUM_ENEMIES+2 + j+i*NUM_ENEMY_COLS] = projectile;
-
-        // Create enemy
-        entities[j+2 + i*NUM_ENEMY_COLS] = new HardEnemy(x, y, ENEMY_DIAMETER, maxVelocityX,
-                                                         maxVelocityY, projectile);
-      }
-    }
-
-    return entities;
+  public void enemyGridInit(int frameWidth, int frameHeight, int tileSize, int numEnemyRows,
+  int numEnemyCols)
+  {
+    this.frameWidth = frameWidth;
+    this.frameHeight = frameHeight;
+    this.numEnemyRows = numEnemyRows;
+    this.numEnemyCols = numEnemyCols;
+    this.tileSize = tileSize;
+    spacingX = frameWidth / numEnemyCols;
+    spacingY = frameHeight / (numEnemyRows + 1);
+    startX = frameWidth / 30;
   }
 
 
   /**
-   * Genereates a random float in the range [0.75, 2.25] to be used as a velocity multiplier for
-   * a {@link entities.enemies.EnemyProjectile projectile}.
+   * {@inheritDoc}
+   */
+  @Override
+  public Player getPlayer(int x, int y, int width, int height, int moveSpeed) {
+    return new HardPlayer(x, y, width, height, moveSpeed);
+  }
+
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Enemy getEnemy(int x, int y, int diameter, float maxVelocityX, float maxVelocityY) {
+    HardEnemy enemy = new HardEnemy(x, y, diameter, maxVelocityX, maxVelocityY);
+    enemy.setProjectile(getProjectile(diameter/2, getProjectileVelocityMultiplier(),
+                                      getProjectileVelocityMultiplier()));
+    return enemy;
+  }
+
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Enemy getGridEnemy(int i, int j, int enemyDiameter, int enemyMoveSpeed) {
+    float rowOffset = (frameWidth / numEnemyCols - enemyDiameter) / 1.6f;
+    int tileOffset = (tileSize - enemyDiameter) / 2;
+
+    int x = startX + j * spacingX;
+    int y = (i+1) * spacingY + tileOffset;
+    int maxVelocityX = i%2 == 1? -enemyMoveSpeed : enemyMoveSpeed;
+    int maxVelocityY = j%2 == 1? -maxVelocityX : maxVelocityX;
+    if(i%2 != 0) {x += rowOffset;}
+  
+    return getEnemy(x, y, enemyDiameter, maxVelocityX, maxVelocityY);
+  }
+
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public WinTile getWinTile(int x, int y, int width, int height) {
+    return new WinTile(x, y, width, height);
+  }
+
+
+  /**
+   * Creates an {@link EnemyProjectile} {@link Entity}.
+   * @param diameter diameter of the projectile.
+   * @param velMultiplierX multiplier for horizontal shot velocity.
+   * @param velMultiplierY multiplier for vertical shot velocity.
+   * @return The created projectile.
+   */
+  public EnemyProjectile getProjectile(int diameter, float velMultiplierX, float velMultiplierY) {
+    return new EnemyProjectile(diameter, velMultiplierX, velMultiplierY);
+  }
+
+
+  /**
+   * Genereates a random float in the range [-2.25, -0.75] U [0.75, 2.25] to be used as a velocity
+   * multiplier for a {@link entities.enemies.EnemyProjectile projectile}.
    * @return The random float.
    */
   private float getProjectileVelocityMultiplier() {

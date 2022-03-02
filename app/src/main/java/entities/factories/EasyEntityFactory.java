@@ -1,8 +1,8 @@
 package entities.factories;
 
 import entities.*;
-import entities.enemies.EasyEnemy;
-import game.Main;
+import entities.players.*;
+import entities.enemies.*;
 
 
 /**
@@ -11,38 +11,60 @@ import game.Main;
  */
 public class EasyEntityFactory implements EntityFactory {
 
+  private int tileSize;
+  private int spacingX, spacingY;
+
+
   /**
-   * Factory method to create all the {@link entities.Entity entities} required for easy mode.
-   * 
-   * @return The entities in an array. The first element is the {@link entities.Player player}, the
-   * second is the {@link entities.WinTile win tile}, and the rest are {@link entities.enemies.EasyEnemy enemies}.
+   * {@inheritDoc}
    */
   @Override
-  public Entity[] getEntities() {
+  public void enemyGridInit(int frameWidth, int frameHeight, int tileSize, int numEnemyRows,
+  int numEnemyCols)
+  {
+    this.tileSize = tileSize;
+    spacingX = frameWidth / numEnemyCols;
+    spacingY = frameHeight / (numEnemyRows + 1);
+  }
+  
 
-    // Initialize entity array, player entity and win tile entity
-    Entity[] entities = new Entity[NUM_ENEMIES + 2];
-    entities[0] = new Player(PLAYER_START_POINT, PLAYER_START_POINT, PLAYER_WIDTH, PLAYER_HEIGHT,
-                             PLAYER_MOVE_SPEED);
-    entities[1] = new WinTile(Main.FRAME_WIDTH - 3*TILE_SIZE, Main.FRAME_HEIGHT - 2*TILE_SIZE,
-                              3*TILE_SIZE, 2*TILE_SIZE);
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Player getPlayer(int x, int y, int width, int height, int moveSpeed) {
+    return new Player(x, y, width, height, moveSpeed);
+  }
 
-    // Create a grid of enemies with alternating movement directions per row
-    for(int i=0; i<NUM_ENEMY_ROWS; i++) {
-      for(int j=0; j<NUM_ENEMY_COLS; j++) {
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Enemy getEnemy(int x, int y, int diameter, float velocity, float travelDistance) {
+    return new EasyEnemy(x, y, diameter, velocity, travelDistance);
+  }
 
-        // Calculate positions and velocities
-        int x = j * ENEMY_SPACING_X;
-        int y = (i+1) * ENEMY_SPACING_y + ENEMY_TILE_OFFSET;
-        int speed = ENEMY_MOVE_SPEED * (int)Math.pow(-1, i);
-        if(i%2 != 0) {x += ENEMY_TRAVEL_DISTANCE;}
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Enemy getGridEnemy(int i, int j, int enemyDiameter, int enemyMoveSpeed) {
+    int travelDistance = spacingX - enemyDiameter;
+    int tileOffset = (tileSize - enemyDiameter) / 2;
 
-        // Create enemy
-        entities[j+2 + i*NUM_ENEMY_COLS] = new EasyEnemy(x, y, ENEMY_DIAMETER, speed,
-                                                         ENEMY_TRAVEL_DISTANCE);
-      }
-    }
+    int x = j * spacingX;
+    if(i%2 != 0) {x += travelDistance;}
+    int y = (i+1) * spacingY + tileOffset;
+    int velocity = i%2 == 1? -enemyMoveSpeed : enemyMoveSpeed;
+  
+    return getEnemy(x, y, enemyDiameter, velocity, travelDistance);
+  }
 
-    return entities;
-  } 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public WinTile getWinTile(int x, int y, int width, int height) {
+    return new WinTile(x, y, width, height);
+  }
 }
