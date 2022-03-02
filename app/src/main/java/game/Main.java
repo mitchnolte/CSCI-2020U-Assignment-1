@@ -14,9 +14,9 @@ import entities.factories.*;
 public class Main implements Runnable {
 
   // FRAMESIZE should have a 5:3 aspect ratio
-  public static final Dimension FRAMESIZE = new Dimension(1600, 960);
-  public static final int FRAME_WIDTH = (int)FRAMESIZE.getWidth();
-  public static final int FRAME_HEIGHT = (int)FRAMESIZE.getHeight();
+  public static final int FRAME_WIDTH = 1600;
+  public static final int FRAME_HEIGHT = 960;
+  public static final Dimension FRAMESIZE = new Dimension(FRAME_WIDTH, FRAME_HEIGHT);
 
   private static JFrame frame;
   private static JPanel parentPanel;
@@ -78,14 +78,14 @@ public class Main implements Runnable {
       panel = menu;
     }
     else if(screen == Panels.EASY_GAMESCREEN) {
-      if(gameScreen == null || gameScreen.isHardMode()) {
+      if(gameScreen == null || gameScreen.ENTITY_FACTORY instanceof HardEntityFactory) {
         gameScreen = new GameScreen(new EasyEntityFactory());
         parentPanel.add(gameScreen, screen.name());
       }
       panel = gameScreen;
     }
     else if(screen == Panels.HARD_GAMESCREEN) {
-      if(gameScreen == null || !gameScreen.isHardMode()) {
+      if(gameScreen == null || gameScreen.ENTITY_FACTORY instanceof EasyEntityFactory) {
         gameScreen = new GameScreen(new HardEntityFactory());
         parentPanel.add(gameScreen, screen.name());
       }
