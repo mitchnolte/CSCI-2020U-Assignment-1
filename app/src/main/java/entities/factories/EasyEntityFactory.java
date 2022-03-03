@@ -43,8 +43,8 @@ public class EasyEntityFactory implements EntityFactory {
    * {@inheritDoc}
    */
   @Override
-  public Enemy getEnemy(int x, int y, int diameter, float velocity, float travelDistance) {
-    return new EasyEnemy(x, y, diameter, velocity, travelDistance);
+  public Enemy getEnemy(int x, int y, int diameter, float velocityX, float velocityY) {
+    return new EasyEnemy(x, y, diameter, velocityX, velocityY);
   }
 
   /**
@@ -58,9 +58,11 @@ public class EasyEntityFactory implements EntityFactory {
     int x = j * spacingX;
     if(i%2 != 0) {x += travelDistance;}
     int y = (i+1) * spacingY + tileOffset;
-    int velocity = i%2 == 1? -enemyMoveSpeed : enemyMoveSpeed;
+    int velocityX = i%2 == 1? -enemyMoveSpeed : enemyMoveSpeed;
   
-    return getEnemy(x, y, enemyDiameter, velocity, travelDistance);
+    EasyEnemy enemy = (EasyEnemy)getEnemy(x, y, enemyDiameter, velocityX, 0);
+    enemy.setTravelDistance(travelDistance);
+    return enemy;
   }
 
   /**

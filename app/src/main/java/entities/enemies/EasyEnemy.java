@@ -9,8 +9,8 @@ import java.awt.Color;
  */
 public class EasyEnemy extends Enemy {
 
-  private final float VELOCITY_START;
-  private float travelDistance;
+  private final float VELOCITY_START_X, VELOCITY_START_Y;
+  private int travelDistance;
 
 
   /**
@@ -18,12 +18,21 @@ public class EasyEnemy extends Enemy {
    * @param x initial x coordinate.
    * @param y initial y coordinate.
    * @param diameter diameter of enemy.
-   * @param velocity initial velocity of enemy.
-   * @param travelDistance distance the enemy will travel before turning around.
+   * @param velocityX initial horizontal velocity of enemy.
+   * @param velocityY initial vertical velocity of enemy.
    */
-  public EasyEnemy(int x, int y, int diameter, float velocity, float travelDistance) {
-    super(x, y, diameter, velocity, 0, Color.BLUE);
-    VELOCITY_START = velocity;
+  public EasyEnemy(int x, int y, int diameter, float velocityX, float velocityY) {
+    super(x, y, diameter, velocityX, velocityY, Color.BLUE);
+    VELOCITY_START_X = velocityX;
+    VELOCITY_START_Y = velocityY;
+  }
+
+
+  /**
+   * Sets the travel distance of the enemy.
+   * @param travelDistance distance the enemy travels before turning around.
+   */
+  public void setTravelDistance(int travelDistance) {
     this.travelDistance = travelDistance;
   }
 
@@ -34,8 +43,13 @@ public class EasyEnemy extends Enemy {
   @Override
   public void update() {
     x += velocityX;
-    if(VELOCITY_START > 0 && (x >= XSTART+travelDistance || x <= XSTART)) {velocityX *= -1;}
-    else if(VELOCITY_START < 0 && (x <= XSTART-travelDistance || x >= XSTART)) {velocityX *= -1;}
+    y += velocityY;
+
+    if(VELOCITY_START_X > 0 && (x >= XSTART+travelDistance || x <= XSTART)) {velocityX *= -1;}
+    else if(VELOCITY_START_X < 0 && (x <= XSTART-travelDistance || x >= XSTART)) {velocityX *= -1;}
+
+    if(VELOCITY_START_Y > 0 && (y >= YSTART+travelDistance || y <= YSTART)) {velocityY *= -1;}
+    else if(VELOCITY_START_Y < 0 && (y <= YSTART-travelDistance || y >= YSTART)) {velocityY *= -1;}
   }
 
   /**
@@ -45,6 +59,6 @@ public class EasyEnemy extends Enemy {
   public void reset() {
     x = XSTART;
     y = YSTART;
-    velocityX = VELOCITY_START;
+    velocityX = VELOCITY_START_X;
   }
 }
