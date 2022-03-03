@@ -5,5 +5,5 @@
 build
 
 # Ignore uml diagram file
-.uxf
-.pdf
+*.uxf
+*.pdf
