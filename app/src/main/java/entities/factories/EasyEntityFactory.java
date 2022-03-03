@@ -36,7 +36,7 @@ public class EasyEntityFactory implements EntityFactory {
    */
   @Override
   public Player getPlayer(int x, int y, int width, int height, int moveSpeed) {
-    return new Player(x, y, width, height, moveSpeed, frameWidth, frameHeight);
+    return new EasyPlayer(x, y, width, height, moveSpeed, frameWidth, frameHeight);
   }
 
   /**

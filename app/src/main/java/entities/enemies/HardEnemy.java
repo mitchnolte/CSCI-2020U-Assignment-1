@@ -71,7 +71,8 @@ public class HardEnemy extends Enemy {
    */
   @Override
   public void draw(Graphics g) {
-    super.draw(g);
+    g.setColor(color);
+    g.fillOval(getX(), getY(), diameter, diameter);
     projectile.draw(g);
   }
 

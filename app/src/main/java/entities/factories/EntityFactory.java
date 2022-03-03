@@ -60,7 +60,7 @@ public interface EntityFactory {
    * @param i row of grid.
    * @param j column of grid.
    * @param enemyDiameter diameter of enemy.
-   * @param enemyMoveSpeed movement speed of enemy.
+   * @param enemyMoveSpeed movement speed of enemy, angular velocity in hard mode.
    * @return The enemy initialized for the grid.
    * @see #enemyGridInit
    */

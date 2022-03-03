@@ -59,10 +59,7 @@ public abstract class Enemy extends Entity {
    * {@inheritDoc}
    */
   @Override
-  public void draw(Graphics g) {
-    g.setColor(color);
-    g.fillOval(getX(), getY(), diameter, diameter);
-  }
+  public abstract void draw(Graphics g);
 
   /**
    * {@inheritDoc}

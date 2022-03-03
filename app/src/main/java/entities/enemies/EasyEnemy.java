@@ -1,5 +1,6 @@
 package entities.enemies;
 
+import java.awt.Graphics;
 import java.awt.Color;
 
 
@@ -34,6 +35,16 @@ public class EasyEnemy extends Enemy {
    */
   public void setTravelDistance(int travelDistance) {
     this.travelDistance = travelDistance;
+  }
+
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void draw(Graphics g) {
+    g.setColor(color);
+    g.fillOval(getX(), getY(), diameter, diameter);
   }
 
 

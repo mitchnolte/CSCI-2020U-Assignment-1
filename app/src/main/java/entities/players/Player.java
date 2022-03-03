@@ -9,8 +9,9 @@ import entities.enemies.Enemy;
 
 /**
  * A player {@link Entity} is a red square. Controlled by a {@link game.KeyInput KeyInput} object.
+ * Subclasses implement the method that checks for collision.
  */
-public class Player extends Entity {
+public abstract class Player extends Entity {
 
   
   protected int frameWidth, frameHeight;
@@ -133,20 +134,7 @@ public class Player extends Entity {
    * @param entity the entity to check for collision with the player.
    * @return Whether entity collides with the player or not.
    */
-  public boolean collidesWith(Entity entity) {
-
-    // Win tile collision
-    if(entity instanceof WinTile) {
-      WinTile tile = (WinTile)entity;
-      if(hitbox.intersects(tile.getHitbox())) {return true;}
-    }
-
-    // Enemy collision
-    if(!(entity instanceof Enemy)) {return false;}
-
-    Enemy enemy = (Enemy)entity;
-    return calculateCollision(enemy);
-  }
+  public abstract boolean collidesWith(Entity entity);
 
   /**
    * Determines whether the player is colliding with an {@link Enemy} or not.
